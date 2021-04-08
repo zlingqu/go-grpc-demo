@@ -12,7 +12,7 @@ protobuf 即 Protocol Buffers，是一种轻便高效的结构化数据存储格
 
 grpc中使用此种方案对数据进行序列化、反序列化。
 
-add.proto即是protobuf的源文件，该文件可以借助protoc工具(https://github.com/protocolbuffers/protobuf/releases)将其格式化成各种语言的代码，比如go、java、python、js、php等，详情可搜索下相关使用方法。
+add.proto即是protobuf的源文件，该文件可以借助protoc工具(https://github.com/protocolbuffers/protobuf/releases) 将其格式化成各种语言的代码，比如go、java、python、js、php等，详情可搜索下相关使用方法。
 ### add.pb.go
 将add.proto转换成的go代码
 ```bash
