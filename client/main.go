@@ -15,8 +15,8 @@ func main() {
 	}
 
 	defer conn.Close()
-	addServiceClient := calcpb.NewCalulatorClient(conn)
-	response, err := addServiceClient.Calculate(context.Background(), &calcpb.CalulatorRequest{X: 1, Y: 20})
+	addServiceClient := calcpb.NewCalculatorClient(conn)
+	response, err := addServiceClient.Calculate(context.Background(), &calcpb.CalculatorRequest{X: 1, Y: 20})
 	if err != nil {
 		panic(err)
 	}

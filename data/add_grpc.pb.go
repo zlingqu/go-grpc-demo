@@ -14,88 +14,88 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// CalulatorClient is the client API for Calulator service.
+// CalculatorClient is the client API for Calculator service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CalulatorClient interface {
+type CalculatorClient interface {
 	// grpc一共有四种类型的服务，简单模式、服务端流、客户端流、双向流。这是第一种。
-	Calculate(ctx context.Context, in *CalulatorRequest, opts ...grpc.CallOption) (*CalulatorResponse, error)
+	Calculate(ctx context.Context, in *CalculatorRequest, opts ...grpc.CallOption) (*CalculatorResponse, error)
 }
 
-type calulatorClient struct {
+type calculatorClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCalulatorClient(cc grpc.ClientConnInterface) CalulatorClient {
-	return &calulatorClient{cc}
+func NewCalculatorClient(cc grpc.ClientConnInterface) CalculatorClient {
+	return &calculatorClient{cc}
 }
 
-func (c *calulatorClient) Calculate(ctx context.Context, in *CalulatorRequest, opts ...grpc.CallOption) (*CalulatorResponse, error) {
-	out := new(CalulatorResponse)
-	err := c.cc.Invoke(ctx, "/Calulator/Calculate", in, out, opts...)
+func (c *calculatorClient) Calculate(ctx context.Context, in *CalculatorRequest, opts ...grpc.CallOption) (*CalculatorResponse, error) {
+	out := new(CalculatorResponse)
+	err := c.cc.Invoke(ctx, "/Calculator/Calculate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CalulatorServer is the server API for Calulator service.
-// All implementations must embed UnimplementedCalulatorServer
+// CalculatorServer is the server API for Calculator service.
+// All implementations must embed UnimplementedCalculatorServer
 // for forward compatibility
-type CalulatorServer interface {
+type CalculatorServer interface {
 	// grpc一共有四种类型的服务，简单模式、服务端流、客户端流、双向流。这是第一种。
-	Calculate(context.Context, *CalulatorRequest) (*CalulatorResponse, error)
-	mustEmbedUnimplementedCalulatorServer()
+	Calculate(context.Context, *CalculatorRequest) (*CalculatorResponse, error)
+	mustEmbedUnimplementedCalculatorServer()
 }
 
-// UnimplementedCalulatorServer must be embedded to have forward compatible implementations.
-type UnimplementedCalulatorServer struct {
+// UnimplementedCalculatorServer must be embedded to have forward compatible implementations.
+type UnimplementedCalculatorServer struct {
 }
 
-func (UnimplementedCalulatorServer) Calculate(context.Context, *CalulatorRequest) (*CalulatorResponse, error) {
+func (UnimplementedCalculatorServer) Calculate(context.Context, *CalculatorRequest) (*CalculatorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Calculate not implemented")
 }
-func (UnimplementedCalulatorServer) mustEmbedUnimplementedCalulatorServer() {}
+func (UnimplementedCalculatorServer) mustEmbedUnimplementedCalculatorServer() {}
 
-// UnsafeCalulatorServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CalulatorServer will
+// UnsafeCalculatorServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CalculatorServer will
 // result in compilation errors.
-type UnsafeCalulatorServer interface {
-	mustEmbedUnimplementedCalulatorServer()
+type UnsafeCalculatorServer interface {
+	mustEmbedUnimplementedCalculatorServer()
 }
 
-func RegisterCalulatorServer(s grpc.ServiceRegistrar, srv CalulatorServer) {
-	s.RegisterService(&Calulator_ServiceDesc, srv)
+func RegisterCalculatorServer(s grpc.ServiceRegistrar, srv CalculatorServer) {
+	s.RegisterService(&Calculator_ServiceDesc, srv)
 }
 
-func _Calulator_Calculate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CalulatorRequest)
+func _Calculator_Calculate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculatorRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CalulatorServer).Calculate(ctx, in)
+		return srv.(CalculatorServer).Calculate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Calulator/Calculate",
+		FullMethod: "/Calculator/Calculate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CalulatorServer).Calculate(ctx, req.(*CalulatorRequest))
+		return srv.(CalculatorServer).Calculate(ctx, req.(*CalculatorRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Calulator_ServiceDesc is the grpc.ServiceDesc for Calulator service.
+// Calculator_ServiceDesc is the grpc.ServiceDesc for Calculator service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Calulator_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Calulator",
-	HandlerType: (*CalulatorServer)(nil),
+var Calculator_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Calculator",
+	HandlerType: (*CalculatorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Calculate",
-			Handler:    _Calulator_Calculate_Handler,
+			Handler:    _Calculator_Calculate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

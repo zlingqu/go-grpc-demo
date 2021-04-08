@@ -12,15 +12,15 @@ import (
 )
 
 type service struct {
-	calcpb.UnimplementedCalulatorServer
+	calcpb.UnimplementedCalculatorServer
 }
 
-func (cs *service) Calculate(ctx context.Context, cReq *calcpb.CalulatorRequest) (*calcpb.CalulatorResponse, error) {
+func (cs *service) Calculate(ctx context.Context, cReq *calcpb.CalculatorRequest) (*calcpb.CalculatorResponse, error) {
 	x := cReq.X
 	y := cReq.Y
 
 	log.Printf("Received request to calculate %d + %d\n", x, y)
-	cRes := &calcpb.CalulatorResponse{
+	cRes := &calcpb.CalculatorResponse{
 		Result: x + y,
 	}
 
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	calcpb.RegisterCalulatorServer(s, &service{})
+	calcpb.RegisterCalculatorServer(s, &service{})
 	reflection.Register(s)
 	log.Printf("Server listeing at %s\n", addr)
 	if err := s.Serve(lis); err != nil {
