@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = ".;demo";
+
+package demo;
+
+message TwoNum {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message OneNum {
+  int32 x = 1;
+}
+
+message Response {
+  int32 result = 1;
+}
+
+// greeter请求
+message HelloRequest {
+  string name = 1;
+}
+
+// greeter响应
+message HelloReply {
+  string message = 1;
+}
+
+
+// 定义服务
+service Demo {
+  // 简单模式。一个请求，一个响应。
+  rpc Add (TwoNum) returns (Response) {} //客户端发送一个请求，包含两个数字，服务端是返回两个数字的和
+  rpc SayHello (HelloRequest) returns (HelloReply) {} //发送一个name字符串，返回hello name
+
+  //服务端流模式，客户端发送一个请求，服务端返回多次。
+  rpc GetStream (TwoNum) returns (stream Response) {} //请求一次，返回三次，分别是两数子和、两数之积、两数之差
+  
+  //客户端流模式，客户端发送多次请求，服务端响应一次。
+  rpc PutStream (stream OneNum) returns (Response) {}//请求中每次都是一个数字，发送完成后，服务端返回所有数字之和
+
+  //双向流，发送和接收同时进行，互不干扰
+  rpc DoubleStream (stream TwoNum) returns (stream Response) {} //每次请求都返回两个数字之和
+}
