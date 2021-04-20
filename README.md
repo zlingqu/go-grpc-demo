@@ -126,7 +126,9 @@ go run client/main.go -server_addr="localhost:50054"
 发送数据 9 9
 双向流：  18
 ```
-
+## 2.3 keys
+相关证书文件。如果不使用tls，这个文件夹无用。
+文件夹的内容，也可以自己生成，参考：[useTls.md](useTls.md)
 
 # 3 可视化调试工具
 
