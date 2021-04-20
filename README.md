@@ -64,12 +64,23 @@ protoc --go_out=. --go-grpc_out=. add.proto
 server目录，服务端代码，运行方式
 ```bash
 go run server/main.go
+
+#如果使用tls,使用
+go run server/main.go -tls=true
+
 ```
 ## 2.3 client
 
 client目录，客户端代码，运行方式
 ```bash
 go run client/main.go
+
+#如果使用tls,使用-tls参数
+go run client/main.go -tls=true
+
+#指定服务端地址，使用-server_addr参数
+go run client/main.go -server_addr="localhost:50054"
+
 ```
 输出内容类似如下
 ```bash
