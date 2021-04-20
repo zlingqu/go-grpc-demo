@@ -2,14 +2,18 @@ package main
 
 import (
 	"context"
+	"flag"
+	"fmt"
 	"io"
 	"log"
 	"net"
 
 	demo "go-grpc-demo/data"
 
-	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
+
+	"google.golang.org/grpc"
 )
 
 type demoServer struct {
@@ -89,17 +93,32 @@ func (s *demoServer) DoubleStream(pipe demo.Demo_DoubleStreamServer) error {
 
 }
 
+var (
+	tls  = flag.Bool("tls", false, "使用启用tls") //默认false
+	port = flag.Int("port", 50054, "服务端口")    //默认50054
+)
+
 func main() {
-	const addr = ":50054"
-	lis, err := net.Listen("tcp", addr)
+	flag.Parse()
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	s := grpc.NewServer()
+	var opts []grpc.ServerOption
+
+	if *tls {
+		creds, err := credentials.NewServerTLSFromFile("keys/server.crt", "keys/server.key")
+		if err != nil {
+			log.Fatalf("Failed to generate credentials %v", err)
+		}
+		opts = []grpc.ServerOption{grpc.Creds(creds)}
+	}
+
+	s := grpc.NewServer(opts...)
 	demo.RegisterDemoServer(s, &demoServer{})
 	reflection.Register(s)
-	log.Printf("Server listeing at %s\n", addr)
+	log.Printf("Server listeing at :%v\n", *port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalln(err)
 	}
