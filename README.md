@@ -26,37 +26,37 @@ rpc DoubleStream (stream TwoNum) returns (stream Response) {} //每次请求都�
 ## 2.1 data
 注意：这部分代码，对于2.2、2.3是公用的
 
-#### 2.1.1 add.proto
+#### 2.1.1 demo.proto
 protobuf 即 Protocol Buffers，是一种轻便高效的结构化数据存储格式。可以理解为和json、XML类似和语言无关，对别json、xml等有其自身的优势，详情可google下。
 
 
 grpc中使用此种方案对数据进行序列化、反序列化。
 
-add.proto即是protobuf的源文件，该文件可以借助protoc工具(https://github.com/protocolbuffers/protobuf/releases) 将其格式化成各种语言的代码，比如go、java、python、js、php等，详情可搜索下相关使用方法。
-#### 2.1.2 add.pb.go
-将add.proto转换成的go代码
+demo.proto即是protobuf的源文件，该文件可以借助protoc工具(https://github.com/protocolbuffers/protobuf/releases) 将其格式化成各种语言的代码，比如go、java、python、js、php等，详情可搜索下相关使用方法。
+#### 2.1.2 demo.pb.go
+将demo.proto转换成的go代码
 ```bash
 # 安装插件，用于--go_out参数
 go get -u github.com/golang/protobuf/protoc-gen-go
 
 # 生成go代码
-protoc --go_out=.  add.proto 
+protoc --go_out=.  demo.proto 
 # go_out表示格式化成go代码，类似的还有java_out、python_out等
 # go_out=.，最后的.表示生成的文件在当前目录
-# add.proto，表示执行的目标文件，这里使用相对路径，也可以用类似于 /root/abc/*.proto等方式
+# demo.proto，表示执行的目标文件，这里使用相对路径，也可以用类似于 /root/abc/*.proto等方式
 # 生成的文件名是固定的, 文件名+.pb+.go
 ```
-#### 2.1.3 add_grpc.pb.go
+#### 2.1.3 demo_grpc.pb.go
 
 
-将add.proto转换成的go grpc需要的相关代码
+将demo.proto转换成的go grpc需要的相关代码
 ```bash
 # 安装插件,用于--go-grpc_out参数
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 # 生成go grpc相关的代码
-protoc --go-grpc_out=. add.proto
+protoc --go-grpc_out=. demo.proto
 # 可以和上一步写到一起
-protoc --go_out=. --go-grpc_out=. add.proto 
+protoc --go_out=. --go-grpc_out=. demo.proto 
 ```
 
 ## 2.2 server
@@ -69,6 +69,9 @@ go run server/main.go
 go run server/main.go -tls=true
 
 ```
+
+也可以将服务端跑到容器中，镜像打包见：Dockerfile
+
 ## 2.3 client
 
 client目录，客户端代码，运行方式
