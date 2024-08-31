@@ -8,7 +8,7 @@ import (
 	"log"
 	"net"
 
-	demo "go-grpc-demo/data"
+	demo "github.com/zlingqu/go-grpc-demo/data"
 
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"

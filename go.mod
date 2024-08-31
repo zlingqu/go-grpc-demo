@@ -1,4 +1,4 @@
-module go-grpc-demo
+module github.com/zlingqu/go-grpc-demo
 
 go 1.15
 

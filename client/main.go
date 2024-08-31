@@ -4,10 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	demo "go-grpc-demo/data"
 	"io"
 	"log"
 	"time"
+
+	demo "github.com/zlingqu/go-grpc-demo/data"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
